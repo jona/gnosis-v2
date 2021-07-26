@@ -1,6 +1,51 @@
-type ExampleEntity @entity {
+type Settlement @entity {
   id: ID!
-  count: BigInt!
-  target: Bytes! # address
-  value: BigInt! # uint256
+  solver: User!
+  trades: [Trade!] @derivedFrom(field: "settlement")
+  totalFeesUSD: BigInt!
+  totalVolumeUSD: BigInt!
+  totalFeesETH: BigInt!
+  totalVolumeETH: BigInt!
+  timestamp: BigInt!
+}
+
+type Trade @entity {
+  id: ID!
+  order: Order!
+  settlement: Settlement!
+  txHash: Bytes!
+  executedSellAmount: BigInt!
+  executedBuyAmount: BigInt!
+  executedFeeAmount: BigInt!
+  volumeUSD: BigInt!
+  volumeETH: BigInt!
+  feeUSD: BigInt!
+  feeETH: BigInt!
+  timestamp: BigInt!
+}
+
+type Order @entity {
+  id: ID!
+  timestamp: BigInt!
+  owner: User!
+  trades: [Trade!] @derivedFrom(field: "order")
+}
+
+type User @entity {
+  id: ID!
+  address: Bytes!
+  firstTradeTimestamp: BigInt!
+  totalTradeVolumeUSD: BigInt!
+  totalTradeVolumeETH: BigInt!
+  isSolver: Boolean!
+}
+
+type Token @entity {
+  id: ID!
+  address: Bytes!
+  name: String!
+  symbol: String!
+  decimals: BigInt!
+  totalTradeVolumneUSD: BigInt!
+  totalTradeVolumneETH: BigInt!
 }

@@ -1,4 +1,4 @@
-specVersion: 0.0.1
+specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
@@ -10,17 +10,23 @@ dataSources:
       abi: Contract
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.2
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - Interaction
-        - OrderInvalidated
-        - PreSignature
         - Settlement
         - Trade
+        - User
+        - Token
+        - Order
       abis:
         - name: Contract
           file: ./abis/Contract.json
+        - name: ERC20Contract
+          file: ./node_modules/@openzeppelin/contracts/build/contracts/ERC20.json
+        - name: ERC20NameBytesContract
+          file: ./abis/ERC20NameBytes.json
+        - name: ERC20SymbolBytesContract
+          file: ./abis/ERC20SymbolBytes.json
       eventHandlers:
         - event: Interaction(indexed address,uint256,bytes4)
           handler: handleInteraction
